@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <radialGradient id="glow" cx="78%" cy="18%" r="60%">
+      <stop offset="0%" stop-color="#4d7cff" stop-opacity=".42"/>
+      <stop offset="60%" stop-color="#4d7cff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="#0a0a0b"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+
+  <!-- marca: "N" monocroma + wordmark -->
+  <g transform="translate(90,82)">
+    <path d="M0 52 V0 L34 52 V0" fill="none" stroke="#f4f4f5" stroke-width="10" stroke-linecap="square" stroke-linejoin="miter"/>
+    <path d="M40 0 L52 0 L46 13 Z" fill="#f4f4f5"/>
+    <text x="78" y="41" font-family="'Space Grotesk',Arial,sans-serif" font-size="40" font-weight="700" letter-spacing="4" fill="#f4f4f5">NODO</text>
+  </g>
+
+  <text x="90" y="314" font-family="'Space Grotesk',Arial,sans-serif" font-size="92" font-weight="700" letter-spacing="-2" fill="#f4f4f5">Creamos webs</text>
+  <text x="90" y="410" font-family="'Space Grotesk',Arial,sans-serif" font-size="92" font-weight="700" letter-spacing="-2" fill="#f4f4f5">que <tspan fill="#8fb0ff">conectan</tspan>.</text>
+
+  <text x="92" y="488" font-family="Arial,sans-serif" font-size="30" fill="#c7c7cf">Estudio de diseño web a medida · rápido, accesible y memorable.</text>
+
+  <text x="90" y="568" font-family="'Courier New',monospace" font-size="22" letter-spacing="3" fill="#9a9aa3">CONDEZUZU.GITHUB.IO/NODO</text>
+</svg>

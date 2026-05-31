@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Página no encontrada · NODO</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#0a0a0b;--text:#f4f4f5;--muted:#9a9aa3;--accent:#3358e6;--accent-2:#8fb0ff;--line:#26262c;--surface:#141416;}
+    *{box-sizing:border-box;}
+    body{margin:0;min-height:100svh;display:grid;place-items:center;background:var(--bg);color:var(--text);
+      font-family:"Inter",system-ui,sans-serif;text-align:center;padding:24px;overflow:hidden;}
+    body::before{content:"";position:fixed;top:-20%;right:-10%;width:60vw;height:60vw;
+      background:radial-gradient(circle,rgba(77,124,255,.32),transparent 62%);filter:blur(20px);pointer-events:none;}
+    .wrap{position:relative;max-width:520px;}
+    .code{font-family:"Space Grotesk",sans-serif;font-weight:700;letter-spacing:-.03em;line-height:1;
+      font-size:clamp(5rem,22vw,11rem);background:linear-gradient(180deg,var(--text),var(--accent-2));
+      -webkit-background-clip:text;background-clip:text;color:transparent;}
+    h1{font-family:"Space Grotesk",sans-serif;font-weight:500;font-size:clamp(1.4rem,4vw,2rem);margin:8px 0 12px;}
+    p{color:var(--muted);font-size:1.05rem;margin:0 auto 28px;max-width:38ch;}
+    .actions{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;}
+    a.btn{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-weight:600;min-height:48px;
+      padding:14px 22px;border-radius:6px;border:1px solid var(--accent);background:var(--accent);color:#fff;transition:transform .2s,background .2s;}
+    a.btn:hover{background:#4068f0;transform:translateY(-2px);}
+    a.ghost{background:transparent;color:var(--text);border-color:var(--line);}
+    a.ghost:hover{background:var(--surface);border-color:var(--accent);}
+    :focus-visible{outline:3px solid var(--accent-2);outline-offset:3px;border-radius:4px;}
+    @media (prefers-reduced-motion:reduce){*{transition:none!important;}}
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <div class="code">404</div>
+    <h1>Esta página se perdió en la red.</h1>
+    <p>El enlace no existe o se movió. Te llevamos de vuelta a un nodo conocido.</p>
+    <div class="actions">
+      <a class="btn" href="/Nodo/">Volver al inicio</a>
+      <a class="btn ghost" href="https://condezuzu.github.io/Brief-ProyectoWeb/" target="_blank" rel="noopener">Empezá tu proyecto ↗</a>
+    </div>
+  </main>
+</body>
+</html>

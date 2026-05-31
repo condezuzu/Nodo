@@ -1,0 +1,14 @@
+{
+  "name": "NODO · Estudio de diseño web",
+  "short_name": "NODO",
+  "description": "Estudio de diseño y desarrollo web a medida. Rápido, accesible y memorable.",
+  "lang": "es",
+  "start_url": "/Nodo/",
+  "scope": "/Nodo/",
+  "display": "standalone",
+  "background_color": "#0a0a0b",
+  "theme_color": "#0a0a0b",
+  "icons": [
+    { "src": "favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}
