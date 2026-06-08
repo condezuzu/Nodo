@@ -277,10 +277,9 @@
   .pstep h3{font-family:var(--display);font-weight:600;font-size:1.15rem;margin:var(--s3) 0 var(--s2);}
   .pstep p{color:var(--muted);font-size:.92rem;}
 
-  /* ---------- 10 · TRABAJO / PORTFOLIO (previews en vivo) ---------- */
+  /* ---------- 10 · TRABAJO / PORTFOLIO (capturas reales) ---------- */
   .work-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--s6);}
-  @media (max-width:820px){.work-grid{grid-template-columns:1fr;gap:var(--s7);}}
-  .work{position:relative;}
+  @media (max-width:820px){.work-grid{grid-template-columns:1fr;gap:var(--s6);}}
   .work__link{display:block;text-decoration:none;color:inherit;border-radius:var(--r3);}
   .work__window{
     border:1px solid var(--line);border-radius:var(--r3);overflow:hidden;background:var(--surface);
@@ -290,20 +289,12 @@
   .work__chrome{display:flex;align-items:center;gap:6px;padding:10px 14px;background:var(--surface-2);border-bottom:1px solid var(--line);}
   .work__chrome i{width:10px;height:10px;border-radius:50%;background:#3a3a42;display:inline-block;}
   .work__url{margin-left:10px;font-family:var(--mono);font-size:.72rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-  .work__viewport{position:relative;aspect-ratio:16/10;overflow:hidden;background:var(--surface);}
-  .work__viewport iframe{border:0;position:absolute;top:0;left:0;transform-origin:top left;pointer-events:none;}
-  /* Skeleton de carga (§9) */
-  .work__skeleton{position:absolute;inset:0;background:
-      linear-gradient(100deg,transparent 20%,rgba(255,255,255,.05) 40%,transparent 60%) var(--surface);
-    background-size:200% 100%;animation:shimmer 1.4s infinite linear;}
-  .work__viewport.is-loaded .work__skeleton,.work__viewport.is-fallback .work__skeleton{display:none;}
-  @keyframes shimmer{to{background-position:-200% 0;}}
-  /* Fallback elegante si el iframe no carga / save-data / reduced-motion (§9) */
-  .work__viewport.is-fallback{display:flex;align-items:center;justify-content:center;
-    background:radial-gradient(120% 120% at 0% 0%, var(--accent-soft), transparent 60%), var(--surface);}
-  .work__viewport.is-fallback::after{content:attr(data-label);font-family:var(--display);font-weight:700;
-    font-size:clamp(1.4rem,4vw,2rem);color:var(--text);letter-spacing:-.01em;}
-  /* Capa para abrir en vivo */
+  /* Viewport con captura real que se desplaza al hover (revela toda la página) */
+  .work__viewport{position:relative;aspect-ratio:16/10;overflow:hidden;background:var(--surface-2);}
+  .work__shot{position:absolute;top:0;left:0;width:100%;height:auto;display:block;
+    transition:transform 3.6s var(--ease);will-change:transform;}
+  .work__link:hover .work__shot,.work__link:focus-visible .work__shot{transform:translateY(var(--shot-shift,0px));}
+  /* Chip "Ver en vivo" */
   .work__open{position:absolute;inset:0;display:flex;align-items:flex-end;justify-content:flex-end;padding:var(--s4);
     background:linear-gradient(to top, rgba(10,10,11,.55), transparent 45%);opacity:0;transition:opacity var(--dur);}
   .work__link:hover .work__open,.work__link:focus-visible .work__open{opacity:1;}
@@ -312,6 +303,24 @@
   .work__tag{font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--accent-2);border:1px solid var(--line);padding:3px 9px;border-radius:var(--r-full);}
   .work__title{font-family:var(--display);font-weight:600;font-size:1.35rem;}
   .work__desc{flex-basis:100%;color:var(--muted);font-size:.95rem;margin-top:2px;}
+  @media (hover:none){ .work__open{opacity:1;background:linear-gradient(to top, rgba(10,10,11,.45), transparent 40%);} }
+  @media (prefers-reduced-motion:reduce){ .work__shot{transition:none;} }
+
+  /* Tarjeta "el próximo sos vos" (CTA del portfolio) */
+  .work--next .work__link{cursor:pointer;}
+  .work--cta{
+    display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:var(--s4);
+    aspect-ratio:16/10;padding:var(--s7);border:1px dashed var(--line);border-radius:var(--r3);
+    background:radial-gradient(130% 120% at 100% 0%, var(--accent-soft), transparent 55%), var(--surface);
+    transition:border-color var(--dur),transform var(--dur) var(--ease),box-shadow var(--dur);
+  }
+  .work__link:hover .work--cta,.work__link:focus-visible .work--cta{border-color:var(--accent);border-style:solid;transform:translateY(-6px);box-shadow:0 30px 70px -30px var(--glow);}
+  .work--cta .work__kx{font-family:var(--mono);font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;color:var(--accent-2);}
+  .work--cta h3{font-family:var(--display);font-weight:700;font-size:clamp(1.6rem,3.2vw,2.2rem);line-height:1.05;letter-spacing:-.01em;}
+  .work--cta p{color:var(--muted);font-size:.98rem;max-width:34ch;}
+  .work--cta .work__go{display:inline-flex;align-items:center;gap:8px;color:var(--text);font-weight:600;margin-top:var(--s2);}
+  .work--cta .work__go .arrow{transition:transform var(--dur) var(--ease);}
+  .work__link:hover .work--cta .work__go .arrow{transform:translate(4px,-4px);}
 
   /* ---------- 11 · SERVICIOS ---------- */
   .serv-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--s5);}
@@ -399,20 +408,8 @@
   .js h1[data-reveal].in, .js .title[data-reveal].in{
     opacity:1 !important; clip-path:inset(-4% -4% -10% -4%) !important; transform:none !important;
   }
-  /* Previews: fundido suave al cargar + chip "En vivo" */
-  .work__viewport iframe{opacity:0; transition:opacity .6s var(--ease);}
-  .work__viewport.is-loaded iframe{opacity:1;}
-  .work__live{position:absolute; top:10px; right:12px; z-index:3; display:inline-flex; align-items:center; gap:7px;
-    font-family:var(--mono); font-size:.64rem; letter-spacing:.14em; text-transform:uppercase; color:var(--text);
-    background:rgba(10,10,11,.62); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
-    border:1px solid var(--line); border-radius:var(--r-full); padding:4px 11px; pointer-events:none;}
-  .work__live::before{content:""; width:6px; height:6px; border-radius:50%; background:var(--accent);
-    box-shadow:0 0 8px var(--accent); animation:livepulse 1.8s var(--ease) infinite;}
-  @keyframes livepulse{0%,100%{opacity:1; transform:scale(1);} 50%{opacity:.35; transform:scale(.7);}}
   @media (prefers-reduced-motion:reduce){
     .js h1[data-reveal], .js .title[data-reveal]{clip-path:none!important; transform:none!important;}
-    .work__live::before{animation:none!important;}
-    .work__viewport iframe{opacity:1!important;}
   }
 
   /* ---------- 18 · MOBILE: experiencia adaptada (no es la de PC encogida) ---------- */
@@ -458,6 +455,62 @@
   @media (max-width:400px){
     .stats{grid-template-columns:1fr 1fr; gap:var(--s5) var(--s3);}
     .hero h1{font-size:clamp(2.4rem,11vw,3rem);}
+  }
+
+  /* ---------- 19 · SHOWCASE: mockup laptop + celular con slideshow ---------- */
+  .showcase{position:relative;}
+  .showcase__stage{position:relative; width:100%; max-width:920px; margin:0 auto; aspect-ratio:16/10;}
+  /* ----- Laptop ----- */
+  .device-laptop{position:absolute; left:0; bottom:0; width:84%;}
+  .laptop__screen{
+    position:relative; background:#0c0c0e; border:10px solid #1c1c20; border-bottom:0;
+    border-radius:16px 16px 0 0; padding:0; overflow:hidden; aspect-ratio:16/10;
+    box-shadow:var(--shadow-2);
+  }
+  .laptop__base{
+    position:relative; width:112%; left:-6%; height:18px; background:linear-gradient(#202024,#0e0e10);
+    border-radius:0 0 14px 14px; box-shadow:0 14px 30px -12px rgba(0,0,0,.8);
+  }
+  .laptop__base::after{content:""; position:absolute; top:0; left:50%; transform:translateX(-50%);
+    width:16%; height:7px; background:#000; border-radius:0 0 8px 8px;}
+  /* ----- Phone ----- */
+  .device-phone{position:absolute; right:0; bottom:0; width:23%; z-index:3;}
+  .phone__screen{
+    position:relative; background:#0c0c0e; border:7px solid #1c1c20; border-radius:26px; overflow:hidden;
+    aspect-ratio:9/19.5; box-shadow:var(--shadow-2), 0 0 0 1px rgba(255,255,255,.04);
+  }
+  .phone__screen::before{content:""; position:absolute; top:7px; left:50%; transform:translateX(-50%);
+    width:34%; height:13px; background:#000; border-radius:0 0 10px 10px; z-index:5;}
+  /* ----- Slides con SCROLL grabado dentro de cada device ----- */
+  .slides{position:absolute; inset:0; overflow:hidden;}
+  .slide{position:absolute; inset:0; opacity:0; transition:opacity .8s var(--ease); will-change:opacity;}
+  .slide.is-active{opacity:1;}
+  /* La imagen es full-page (alta); se desplaza para simular scroll */
+  .slide img{position:absolute; top:0; left:0; width:100%; height:auto; display:block;}
+  .slide.is-active img{animation:autoscroll var(--scroll-dur,12s) cubic-bezier(.65,.02,.32,1) forwards;}
+  @keyframes autoscroll{
+    0%   {transform:translateY(0);}
+    22%  {transform:translateY(0);}                         /* pausa larga: se LEE el hero / lo importante */
+    46%  {transform:translateY(var(--scroll-mid,0px));}     /* baja al primer bloque de contenido */
+    58%  {transform:translateY(var(--scroll-mid,0px));}     /* micro-pausa: se lee ese bloque */
+    92%  {transform:translateY(var(--scroll-y,0px));}       /* continúa hasta el final del tramo */
+    100% {transform:translateY(var(--scroll-y,0px));}       /* pausa abajo */
+  }
+  /* Etiqueta del proyecto activo */
+  .showcase__label{
+    position:absolute; left:0; bottom:-2.4em; font-family:var(--mono); font-size:.78rem; letter-spacing:.06em;
+    color:var(--muted); display:flex; gap:10px; align-items:center;
+  }
+  .showcase__label b{color:var(--text); font-weight:600;}
+  .showcase__label .dot{width:6px; height:6px; border-radius:50%; background:var(--accent); box-shadow:0 0 8px var(--accent);}
+  @media (max-width:760px){
+    .showcase__stage{max-width:520px;}
+    .device-phone{width:26%;}
+    .showcase__label{position:static; margin-top:var(--s5); justify-content:center;}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .slide{transition:none;}
+    .slide.is-active img{animation:none; transform:translateY(0);}   /* sin scroll: muestra el tope */
   }
   </style>
 </head>
@@ -542,6 +595,46 @@
       </div>
     </section>
 
+    <!-- ===================== SHOWCASE (mockup laptop + celular) ===================== -->
+    <section class="section" aria-labelledby="showcase-title">
+      <div class="container">
+        <div class="section__head" style="max-width:62ch">
+          <p class="kicker" data-reveal>Diseño que se adapta</p>
+          <h2 class="title" id="showcase-title" data-reveal>Impecable en cada pantalla.</h2>
+          <p data-reveal>El mismo proyecto, pensado para desktop y mobile por separado. Mirá cómo se ven algunos de los nuestros, en vivo.</p>
+        </div>
+
+        <div class="showcase" data-reveal>
+          <div class="showcase__stage">
+            <!-- Laptop: versión desktop del sitio activo -->
+            <div class="device-laptop">
+              <div class="laptop__screen">
+                <div class="slides" id="slides-laptop" aria-hidden="true">
+                  <div class="slide is-active"><img src="shots/marenco_desk.jpg"   alt="" loading="lazy" decoding="async"></div>
+                  <div class="slide"><img src="shots/mcinvest_desk.jpg"  alt="" loading="lazy" decoding="async"></div>
+                  <div class="slide"><img src="shots/meridiano_desk.jpg" alt="" loading="lazy" decoding="async"></div>
+                </div>
+              </div>
+              <div class="laptop__base" aria-hidden="true"></div>
+            </div>
+
+            <!-- Celular: versión mobile REAL del MISMO sitio -->
+            <div class="device-phone">
+              <div class="phone__screen">
+                <div class="slides" id="slides-phone" aria-hidden="true">
+                  <div class="slide is-active"><img src="shots/marenco_mobile.jpg"   alt="" loading="lazy" decoding="async"></div>
+                  <div class="slide"><img src="shots/mcinvest_mobile.jpg"  alt="" loading="lazy" decoding="async"></div>
+                  <div class="slide"><img src="shots/meridiano_mobile.jpg" alt="" loading="lazy" decoding="async"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <p class="showcase__label" aria-live="off"><span class="dot" aria-hidden="true"></span> Mostrando: <b id="showcase-now">Marenco &amp; Asociados</b></p>
+        </div>
+      </div>
+    </section>
+
     <!-- ===================== ESTUDIO ===================== -->
     <section class="section" id="estudio" aria-labelledby="estudio-title">
       <div class="container">
@@ -589,8 +682,8 @@
       <div class="container">
         <div class="section__head">
           <p class="kicker" data-reveal>Trabajo</p>
-          <h2 class="title" id="trabajo-title" data-reveal>Proyectos reales, en vivo.</h2>
-          <p data-reveal>Estas miniaturas son los sitios de verdad, funcionando. Tocá cualquiera para abrirlo en una pestaña nueva.</p>
+          <h2 class="title" id="trabajo-title" data-reveal>Proyectos que hablan por nosotros.</h2>
+          <p data-reveal>Una selección de lo que más nos gustó construir. Pasá el mouse para recorrer cada uno, o tocá para abrirlo en vivo.</p>
         </div>
 
         <div class="work-grid">
@@ -599,8 +692,8 @@
             <a class="work__link" href="https://condezuzu.github.io/demo.marenco/" target="_blank" rel="noopener" aria-label="Abrir Marenco &amp; Asociados en vivo (nueva pestaña)">
               <div class="work__window">
                 <div class="work__chrome" aria-hidden="true"><i></i><i></i><i></i><span class="work__url">condezuzu.github.io/demo.marenco</span></div>
-                <div class="work__viewport" data-src="https://condezuzu.github.io/demo.marenco/" data-label="Marenco">
-                  <div class="work__skeleton"></div>
+                <div class="work__viewport">
+                  <img class="work__shot" src="shots/marenco_desk.jpg" alt="Sitio de Marenco &amp; Asociados, estudio jurídico" loading="lazy" decoding="async" width="1000" height="1875">
                   <div class="work__open"><span>Ver en vivo ↗</span></div>
                 </div>
               </div>
@@ -617,8 +710,8 @@
             <a class="work__link" href="https://condezuzu.github.io/mcinvestment/" target="_blank" rel="noopener" aria-label="Abrir MC Investment &amp; Consulting en vivo (nueva pestaña)">
               <div class="work__window">
                 <div class="work__chrome" aria-hidden="true"><i></i><i></i><i></i><span class="work__url">condezuzu.github.io/mcinvestment</span></div>
-                <div class="work__viewport" data-src="https://condezuzu.github.io/mcinvestment/" data-label="MC Investment">
-                  <div class="work__skeleton"></div>
+                <div class="work__viewport">
+                  <img class="work__shot" src="shots/mcinvest_desk.jpg" alt="Sitio de MC Investment &amp; Consulting, finanzas" loading="lazy" decoding="async" width="1000" height="1875">
                   <div class="work__open"><span>Ver en vivo ↗</span></div>
                 </div>
               </div>
@@ -630,31 +723,13 @@
             </a>
           </article>
 
-          <!-- STREAK -->
-          <article class="work" data-reveal>
-            <a class="work__link" href="https://condezuzu.github.io/gym-streakv1/" target="_blank" rel="noopener" aria-label="Abrir STREAK en vivo (nueva pestaña)">
-              <div class="work__window">
-                <div class="work__chrome" aria-hidden="true"><i></i><i></i><i></i><span class="work__url">condezuzu.github.io/gym-streakv1</span></div>
-                <div class="work__viewport" data-src="https://condezuzu.github.io/gym-streakv1/" data-label="STREAK">
-                  <div class="work__skeleton"></div>
-                  <div class="work__open"><span>Ver en vivo ↗</span></div>
-                </div>
-              </div>
-              <div class="work__meta">
-                <span class="work__tag">App · Fitness</span>
-                <h3 class="work__title">STREAK</h3>
-                <p class="work__desc">Tracker de gimnasio que gamifica la constancia con rachas, niveles y registro con foto.</p>
-              </div>
-            </a>
-          </article>
-
           <!-- STELLAR -->
           <article class="work" data-reveal>
             <a class="work__link" href="https://condezuzu.github.io/stellar/" target="_blank" rel="noopener" aria-label="Abrir STELLAR en vivo (nueva pestaña)">
               <div class="work__window">
                 <div class="work__chrome" aria-hidden="true"><i></i><i></i><i></i><span class="work__url">condezuzu.github.io/stellar</span></div>
-                <div class="work__viewport" data-src="https://condezuzu.github.io/stellar/" data-label="STELLAR">
-                  <div class="work__skeleton"></div>
+                <div class="work__viewport">
+                  <img class="work__shot" src="shots/stellar.jpg" alt="Plataforma STELLAR, aprendizaje gamificado" loading="lazy" decoding="async" width="960" height="600">
                   <div class="work__open"><span>Ver en vivo ↗</span></div>
                 </div>
               </div>
@@ -666,20 +741,20 @@
             </a>
           </article>
 
-          <!-- BITÁCORA -->
+          <!-- STREAK -->
           <article class="work" data-reveal>
-            <a class="work__link" href="https://condezuzu.github.io/EstudioSemanal/" target="_blank" rel="noopener" aria-label="Abrir Bitácora en vivo (nueva pestaña)">
+            <a class="work__link" href="https://condezuzu.github.io/gym-streakv1/" target="_blank" rel="noopener" aria-label="Abrir STREAK en vivo (nueva pestaña)">
               <div class="work__window">
-                <div class="work__chrome" aria-hidden="true"><i></i><i></i><i></i><span class="work__url">condezuzu.github.io/EstudioSemanal</span></div>
-                <div class="work__viewport" data-src="https://condezuzu.github.io/EstudioSemanal/" data-label="Bitácora">
-                  <div class="work__skeleton"></div>
+                <div class="work__chrome" aria-hidden="true"><i></i><i></i><i></i><span class="work__url">condezuzu.github.io/gym-streakv1</span></div>
+                <div class="work__viewport">
+                  <img class="work__shot" src="shots/streak.jpg" alt="App STREAK, tracker de gimnasio" loading="lazy" decoding="async" width="960" height="600">
                   <div class="work__open"><span>Ver en vivo ↗</span></div>
                 </div>
               </div>
               <div class="work__meta">
-                <span class="work__tag">App · Productividad</span>
-                <h3 class="work__title">Bitácora</h3>
-                <p class="work__desc">Tracker de estudio: cronómetro, metas semanales y estadísticas por materia para estudiantes.</p>
+                <span class="work__tag">App · Fitness</span>
+                <h3 class="work__title">STREAK</h3>
+                <p class="work__desc">Tracker de gimnasio que gamifica la constancia con rachas, niveles y registro con foto.</p>
               </div>
             </a>
           </article>
@@ -689,8 +764,8 @@
             <a class="work__link" href="https://condezuzu.github.io/demo.arquitectura/" target="_blank" rel="noopener" aria-label="Abrir Estudio Meridiano en vivo (nueva pestaña)">
               <div class="work__window">
                 <div class="work__chrome" aria-hidden="true"><i></i><i></i><i></i><span class="work__url">condezuzu.github.io/demo.arquitectura</span></div>
-                <div class="work__viewport" data-src="https://condezuzu.github.io/demo.arquitectura/" data-label="Meridiano">
-                  <div class="work__skeleton"></div>
+                <div class="work__viewport">
+                  <img class="work__shot" src="shots/meridiano_desk.jpg" alt="Sitio de Estudio Meridiano, arquitectura" loading="lazy" decoding="async" width="1000" height="1875">
                   <div class="work__open"><span>Ver en vivo ↗</span></div>
                 </div>
               </div>
@@ -698,6 +773,18 @@
                 <span class="work__tag">Sitio · Arquitectura</span>
                 <h3 class="work__title">Estudio Meridiano</h3>
                 <p class="work__desc">Arquitectura de lo esencial. Minimalismo, tipografía y aire para que los proyectos respiren.</p>
+              </div>
+            </a>
+          </article>
+
+          <!-- EL PRÓXIMO SOS VOS -->
+          <article class="work work--next" data-reveal>
+            <a class="work__link" href="https://condezuzu.github.io/Brief-ProyectoWeb/" target="_blank" rel="noopener" aria-label="Empezá tu proyecto: completá el brief (nueva pestaña)">
+              <div class="work--cta">
+                <span class="work__kx">Próximo proyecto</span>
+                <h3>¿El próximo<br>sos vos?</h3>
+                <p>Tu marca puede ser la siguiente en esta lista. Contanos qué tenés en mente.</p>
+                <span class="work__go">Empezá tu proyecto <span class="arrow" aria-hidden="true">↗</span></span>
               </div>
             </a>
           </article>
@@ -786,7 +873,6 @@
           <p>Contanos qué tenés en mente. En 24 h hábiles te respondemos con una propuesta concreta: alcance, plazos y costo.</p>
           <div class="cta__actions">
             <a class="btn btn--lg" href="https://condezuzu.github.io/Brief-ProyectoWeb/" target="_blank" rel="noopener">Completar el brief <span class="arrow" aria-hidden="true">↗</span></a>
-            <!-- PLACEHOLDER: reemplazá el número de WhatsApp (formato internacional sin signos) -->
             <a class="btn btn--ghost btn--lg" href="https://wa.me/59893327799" target="_blank" rel="noopener">Escribinos por WhatsApp</a>
           </div>
           <p class="cta__meta">
@@ -822,7 +908,6 @@
           <h4>Contacto</h4>
           <ul>
             <li><a href="https://condezuzu.github.io/Brief-ProyectoWeb/" target="_blank" rel="noopener">Completar brief ↗</a></li>
-            <!-- PLACEHOLDER: WhatsApp, mail e Instagram reales -->
             <li><a href="https://wa.me/59893327799" target="_blank" rel="noopener">WhatsApp</a></li>
             <li><a href="mailto:nodoexpweb@gmail.com">nodoexpweb@gmail.com</a></li>
             <li><a href="tel:+59893327799">+598 93 327 799</a></li>
@@ -970,46 +1055,23 @@
       counters.forEach(function(c){ c.textContent = c.getAttribute('data-count'); });
     }
 
-    /* ---- Portfolio: previews en vivo (lazy mount + escalado) (§9 estados) ---- */
-    var saveData = (navigator.connection && navigator.connection.saveData) === true;
-    function mount(vp){
-      // Fallback elegante: ahorro de datos o reduced-motion → tarjeta estática
-      if(saveData || reduce){ vp.classList.add('is-fallback'); return; }
-      var url = vp.getAttribute('data-src');
-      var iframe = document.createElement('iframe');
-      iframe.setAttribute('aria-hidden','true');
-      iframe.setAttribute('tabindex','-1');
-      iframe.setAttribute('loading','lazy');
-      iframe.setAttribute('scrolling','no');
-      iframe.setAttribute('sandbox','allow-scripts allow-same-origin allow-popups');
-      iframe.title = '';
-      function fit(){
-        var w = vp.clientWidth, h = vp.clientHeight;
-        if(!w) return;
-        var scale = w / 1280;
-        iframe.style.width = '1280px';
-        iframe.style.height = (h / scale) + 'px';
-        iframe.style.transform = 'scale(' + scale + ')';
+    /* ---- Portfolio: capturas reales con scroll-on-hover (revela toda la página) ---- */
+    (function(){
+      var shots = document.querySelectorAll('.work__viewport .work__shot');
+      function setShift(img){
+        var vp = img.parentElement;
+        var hidden = img.offsetHeight - vp.clientHeight; // cuánto sobresale por abajo
+        var shift = hidden > 8 ? -hidden : 0;
+        img.style.setProperty('--shot-shift', shift + 'px');
       }
-      iframe.addEventListener('load', function(){ vp.classList.add('is-loaded'); fit(); });
-      var failTimer = setTimeout(function(){
-        if(!vp.classList.contains('is-loaded')) vp.classList.add('is-fallback');
-      }, 9000);
-      iframe.addEventListener('error', function(){ clearTimeout(failTimer); vp.classList.add('is-fallback'); });
-      vp.appendChild(iframe);
-      fit();
-      if('ResizeObserver' in window){ new ResizeObserver(fit).observe(vp); }
-      else { window.addEventListener('resize', fit, {passive:true}); }
-    }
-    var viewports = document.querySelectorAll('.work__viewport');
-    if(saveData || reduce || !('IntersectionObserver' in window)){
-      viewports.forEach(function(vp){ if(saveData||reduce) vp.classList.add('is-fallback'); else mount(vp); });
-    } else {
-      var pspy = new IntersectionObserver(function(entries){
-        entries.forEach(function(e){ if(e.isIntersecting){ mount(e.target); pspy.unobserve(e.target); } });
-      }, {rootMargin:'300px 0px'});
-      viewports.forEach(function(vp){ pspy.observe(vp); });
-    }
+      function apply(img){
+        if(img.complete && img.naturalWidth) setShift(img);
+        else img.addEventListener('load', function(){ setShift(img); }, {once:true});
+      }
+      shots.forEach(apply);
+      var rt;
+      window.addEventListener('resize', function(){ clearTimeout(rt); rt = setTimeout(function(){ shots.forEach(setShift); }, 200); }, {passive:true});
+    })();
 
     /* ---- Hero: red de nodos INTERACTIVA + intro que ensambla la "N" (concepto de marca, perf-safe) ---- */
     var canvas = document.getElementById('nodecanvas');
@@ -1208,13 +1270,76 @@
     if(document.readyState === 'complete') initLenis();
     else window.addEventListener('load', initLenis);
 
-    /* Chip "En vivo" sobre cada preview */
-    document.querySelectorAll('.work__viewport').forEach(function(vp){
-      if(vp.querySelector('.work__live')) return;
-      var b = document.createElement('span');
-      b.className = 'work__live'; b.setAttribute('aria-hidden','true'); b.textContent = 'En vivo';
-      vp.appendChild(b);
-    });
+    /* Showcase: scroll grabado, laptop+celular sincronizados (misma web) */
+    (function(){
+      var lap = document.getElementById('slides-laptop');
+      var pho = document.getElementById('slides-phone');
+      var label = document.getElementById('showcase-now');
+      if(!lap || !pho) return;
+      var NAMES = ['Marenco & Asociados', 'MC Investment', 'Estudio Meridiano'];
+      // Las imágenes ya son un TRAMO superior acotado (hero + bloques fuertes). Recorremos casi todo.
+      var SCROLL_SECS = 6.5;      // s del recorrido (mismo para todos → ritmo parejo)
+      var PAD = 3.2;             // s de pausas (más arriba: se LEE el hero antes de scrollear)
+      var lapSlides = lap.querySelectorAll('.slide');
+      var phoSlides = pho.querySelectorAll('.slide');
+      var n = Math.min(lapSlides.length, phoSlides.length);
+      if(n < 2) return;
+      var i = 0, timer = null, visible = false;
+
+      // Recorrido = casi todo el tramo capturado (ya es contenido bueno, sin footer vacío).
+      function travelFor(slide){
+        var img = slide.querySelector('img');
+        var frame = slide.parentElement;          // .slides = ventana del device
+        if(!img || !frame || !img.offsetHeight) return 0;
+        var full = img.offsetHeight - frame.clientHeight;
+        if(full < 0) full = 0;
+        return full * 0.92;
+      }
+      function applyTo(slide){
+        var img = slide.querySelector('img');
+        var travel = Math.round(travelFor(slide));
+        // Punto intermedio (~38% del recorrido): cae sobre el 1er bloque bajo el hero, donde hace la micro-pausa
+        var mid = Math.round(travel * 0.38);
+        slide.style.setProperty('--scroll-mid', (-mid) + 'px');
+        slide.style.setProperty('--scroll-y', (-travel) + 'px');
+        slide.style.setProperty('--scroll-dur', (SCROLL_SECS + PAD).toFixed(2) + 's');
+        img.style.animation = 'none'; void img.offsetWidth; img.style.animation = '';  // retrigger
+      }
+      function show(idx){
+        lapSlides.forEach(function(s,k){ s.classList.toggle('is-active', k===idx); });
+        phoSlides.forEach(function(s,k){ s.classList.toggle('is-active', k===idx); });
+        applyTo(lapSlides[idx]);
+        applyTo(phoSlides[idx]);
+        if(label && NAMES[idx]) label.textContent = NAMES[idx];
+        return (SCROLL_SECS + PAD) * 1000; // ms hasta el próximo cambio
+      }
+      function schedule(){
+        pause();
+        var ms = show(i);
+        timer = setTimeout(function(){ i = (i + 1) % n; if(visible && !reduce) schedule(); }, ms);
+      }
+      function play(){ if(reduce){ show(i); return; } if(timer) return; schedule(); }
+      function pause(){ if(timer){ clearTimeout(timer); timer = null; } }
+
+      // Recalcular en resize (los devices cambian de tamaño)
+      var rt;
+      window.addEventListener('resize', function(){ clearTimeout(rt); rt = setTimeout(function(){
+        if(visible && !reduce){ pause(); schedule(); } else { show(i); }
+      }, 220); }, {passive:true});
+
+      function startWhenReady(){
+        show(0);
+        var stage = lap.closest('.showcase');
+        if('IntersectionObserver' in window && stage){
+          new IntersectionObserver(function(en){
+            en.forEach(function(e){ visible = e.isIntersecting; visible ? play() : pause(); });
+          }, {threshold:0.25}).observe(stage);
+        } else { visible = true; play(); }
+        document.addEventListener('visibilitychange', function(){ document.hidden ? pause() : (visible && play()); });
+      }
+      if(document.readyState === 'complete') startWhenReady();
+      else window.addEventListener('load', startWhenReady);
+    })();
 
     /* Botones magnéticos (SOLO mouse real, sin reduced-motion; nunca en táctil) */
     if(fine && !reduce){
